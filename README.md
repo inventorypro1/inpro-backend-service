@@ -8,3 +8,9 @@ It seems however that this guide assumes that you have the front end and backend
 which is perfect as this is what I wanted... A separation of concerns with respect to the front and back end. So I am
 going to have to split up the front and backend before following this guide I guess.
 
+
+Build the Docker image:
+docker build -t inpro-backend-service .
+
+So the docker-compose file works now. What you need to do next is push the docker images to your
+private registry at inventorypro1

@@ -1,5 +1,5 @@
 node_modules/
 .idea/
-config/keys.js
+mongo-volume/
 package-lock.json
 yarn.lock
