@@ -1,3 +1,20 @@
+## How to push a new image to docker hub
+First you have to make sure that you are logged into the docker account of inventorypro1, do the following
+ - `docker logout`
+ - `docker login` (then enter your username and password)
+
+Right now you're in. Now you have to build the image, tag it and push it like this:
+ - Navigate to the root directory of the project
+ - Remove all existing docker images for the inpro-backend-service with `docker rmi <image_id>`
+ - Build the image: `docker build -t inpro-backend-service`
+ - Tag the image: `docker tag <image_id> inventorypro1/inventory_pro:inpro-backend-service`
+ - Push the image: `docker push inventorypro1/inventory_pro`
+ 
+## How to retrieve the docker image from the private repo
+ - Login to the docker account (instructions above)
+ - docker pull inventorypro1/inventory_pro:inpro-backend-service
+
+## Random notes
 Followed this guide to implement the basic MERN application: 
 https://blog.bitsrc.io/build-a-login-auth-app-with-mern-stack-part-1-c405048e3669
 
@@ -7,10 +24,3 @@ Going to follow this blogpost: https://jasonwatmore.com/post/2019/11/18/react-no
 It seems however that this guide assumes that you have the front end and backend as 2 separate running applications,
 which is perfect as this is what I wanted... A separation of concerns with respect to the front and back end. So I am
 going to have to split up the front and backend before following this guide I guess.
-
-
-Build the Docker image:
-docker build -t inpro-backend-service .
-
-So the docker-compose file works now. What you need to do next is push the docker images to your
-private registry at inventorypro1

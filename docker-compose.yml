@@ -16,7 +16,8 @@ services:
       - 27019:27019
 
   inpro-backend-service:
-    image: 'inpro-backend-service'
+    image: 'inventorypro1/inventory_pro:inpro-backend-service'
+    container_name: 'inpro-backend-service'
     ports:
       - 5000:5000
     depends_on:
