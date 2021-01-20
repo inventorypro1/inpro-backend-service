@@ -6,8 +6,6 @@ services:
     container_name: 'mongodb'
     environment:
       - MONGO_INITDB_DATABASE=inpro
-      - MONGO_INITDB_ROOT_USERNAME=inpro
-      - MONGO_INITDB_ROOT_PASSWORD=inpro
     volumes:
       - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
       - ./mongo-volume:/data/db

@@ -6,7 +6,7 @@ First you have to make sure that you are logged into the docker account of inven
 Right now you're in. Now you have to build the image, tag it and push it like this:
  - Navigate to the root directory of the project
  - Remove all existing docker images for the inpro-backend-service with `docker rmi <image_id>`
- - Build the image: `docker build -t inpro-backend-service`
+ - Build the image: `docker build -t inpro-backend-service .`
  - Tag the image: `docker tag <image_id> inventorypro1/inventory_pro:inpro-backend-service`
  - Push the image: `docker push inventorypro1/inventory_pro`
  
