@@ -14,6 +14,9 @@ Right now you're in. Now you have to build the image, tag it and push it like th
  - Login to the docker account (instructions above)
  - docker pull inventorypro1/inventory_pro:inpro-backend-service
 
+## Testing
+You can run the unit tests of the application by running `yarn test` in the root directory.
+
 ## Random notes
 Followed this guide to implement the basic MERN application: 
 https://blog.bitsrc.io/build-a-login-auth-app-with-mern-stack-part-1-c405048e3669
