@@ -3,8 +3,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const createError = require('http-errors')
-const login = require('../validation/login');
-const validateRegisterInput = require("../validation/register");
 const keys = require("./../config/keys");
 
 const User = require("../models/User");
@@ -12,13 +10,6 @@ const User = require("../models/User");
 async function registerUser(user) {
 
     console.log('Registering new user in user-service.js')
-
-    const { errors, isValid } = validateRegisterInput(user);
-
-    if (!isValid) {
-        return Promise.reject(createError(400, 'Error when validating user body', errors));
-    }
-
 
     const existingUser = await User.findOne({ email: user.email });
 
@@ -46,12 +37,6 @@ async function registerUser(user) {
 
 
 async function loginUser(email, password) {
-
-    const { errors, isValid } = login.validateLoginInput({ email, password });
-
-    if (!isValid) {
-        return Promise.reject(createError(400, errors));
-    }
 
     const user = await User.findOne({ email });
     if (!user) {
