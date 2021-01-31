@@ -1,7 +1,10 @@
 const chai = require('chai');
 const expect = chai.expect;
-
 require('chai');
+
+// TODO: uncomment these when you make these tests proper
+// const bcrypt = require('bcryptjs');
+// const target = require('./../../services/user-service');
 
 describe('User service tests', () => {
 

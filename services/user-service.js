@@ -1,11 +1,11 @@
 
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const createError = require('http-errors')
-const keys = require("./../config/keys");
+const keys = require('./../config/keys');
 
-const User = require("../models/User");
+const User = require('../models/User');
 
 async function registerUser(user) {
 
@@ -23,13 +23,10 @@ async function registerUser(user) {
         password: user.password
     });
 
-
-    await bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
-            if (err) throw err;
-            newUser.password = hash;
-            newUser.save()
-        });
+    await bcrypt.hash(newUser.password, 10, function(err, hash) {
+        if (err) throw err;
+        newUser.password = hash;
+        newUser.save()
     });
 
     return newUser;
