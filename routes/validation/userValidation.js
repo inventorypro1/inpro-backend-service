@@ -16,15 +16,16 @@ module.exports.validateLogin = [
         .isEmpty()
         .withMessage('\'password\' field is required')
         .bail()
-        .isLength({ min:4, max:16 })
+        .isLength({ min: 4, max: 16 })
         .withMessage('Password must be between 4 to 16 characters'),
     (req, res, next) => {
         const errors = validationResult(req);
-        if (!errors.isEmpty())
-            return res.status(422).json({errors: errors.array()});
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
         next();
-    },
-]
+    }
+];
 
 module.exports.validateRegister = [
     check('name')
@@ -50,7 +51,7 @@ module.exports.validateRegister = [
         .isEmpty()
         .withMessage('\'password\' field is required')
         .bail()
-        .isLength({ min:4, max:16 })
+        .isLength({ min: 4, max: 16 })
         .withMessage('Password must be between 4 to 16 characters'),
     check('password2')
         .trim()
@@ -58,19 +59,20 @@ module.exports.validateRegister = [
         .isEmpty()
         .withMessage('\'password2\' field is required')
         .bail()
-        .isLength({ min:4, max:16 })
+        .isLength({ min: 4, max: 16 })
         .withMessage('Password must be between 4 to 16 characters')
-        .custom(async (password2, {req}) => {
-            const password = req.body.password
+        .custom(async (password2, { req }) => {
+            const password = req.body.password;
 
-            if(password !== password2){
-                throw new Error('Passwords must be the same')
+            if (password !== password2) {
+                throw new Error('Passwords must be the same');
             }
         }),
     (req, res, next) => {
         const errors = validationResult(req);
-        if (!errors.isEmpty())
-            return res.status(422).json({errors: errors.array()});
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
         next();
-    },
+    }
 ];

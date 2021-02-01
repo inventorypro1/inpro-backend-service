@@ -1,5 +1,4 @@
-
-const userService = require('./../services/user-service');
+const userService = require('../services/user-service');
 
 function registerUser(request, response, next) {
 
@@ -23,4 +22,4 @@ function loginUser(request, response, next) {
 module.exports = {
     registerUser,
     loginUser
-}
+};

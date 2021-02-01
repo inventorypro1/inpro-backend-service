@@ -1,23 +1,18 @@
-
+/* global beforeEach describe it */
 const { expect } = require('chai');
 
 const request = require('supertest');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const userRoutes = require('./../../routes/users');
+const userRoutes = require('../../routes/users');
 
-describe('User tests', function () {
+describe('User tests', () => {
 
     let app;
 
     function validationError(err, req, res, next) {
-        if (err instanceof ev.ValidationError) {
-            res.status(err.status).json({ message: validateError(err) });
-        }
-        else {
-            next(err);
-        }
+        next(err);
     }
 
     beforeEach(() => {
@@ -44,7 +39,7 @@ describe('User tests', function () {
                 });
         }
 
-        it('should fail if name field is not provided', function testSlash(done) {
+        it('should fail if name field is not provided', (done) => {
 
             const body = { email: 'test@test.com', password: 'testtest', password2: 'testtest' };
 
@@ -52,7 +47,7 @@ describe('User tests', function () {
             registerUser(body, expectedErrorMessage, done);
         });
 
-        it('should fail if email field is not provided', function testSlash(done) {
+        it('should fail if email field is not provided', (done) => {
 
             const body = { name: 'test', password: 'testtest', password2: 'testtest' };
 
@@ -60,7 +55,7 @@ describe('User tests', function () {
             registerUser(body, expectedErrorMessage, done);
         });
 
-        it('should fail if password field is not provided', function testSlash(done) {
+        it('should fail if password field is not provided', (done) => {
 
             const body = { name: 'test', email: 'test@test.com', password2: 'testtest' };
 
@@ -68,7 +63,7 @@ describe('User tests', function () {
             registerUser(body, expectedErrorMessage, done);
         });
 
-        it('should fail if password2 field is not provided', function testSlash(done) {
+        it('should fail if password2 field is not provided', (done) => {
 
             const body = { name: 'test', email: 'test@test.com', password: 'testtest' };
 
@@ -76,33 +71,41 @@ describe('User tests', function () {
             registerUser(body, expectedErrorMessage, done);
         });
 
-        it('should fail if name field has length less than 3', function testSlash(done) {
+        it('should fail if name field has length less than 3', (done) => {
 
-            const body = { name: 'tt', email: 'test@test.com', password: 'testtest', password2: 'testtest' };
+            const body = {
+ name: 'tt', email: 'test@test.com', password: 'testtest', password2: 'testtest'
+};
 
             const expectedErrorMessage = 'Name must be between 3 and 20 characters long';
             registerUser(body, expectedErrorMessage, done);
         });
 
-        it('should fail if email is invalid', function testSlash(done) {
+        it('should fail if email is invalid', (done) => {
 
-            const body = { name: 'test', email: 'test', password: 'testtest', password2: 'testtest' };
+            const body = {
+ name: 'test', email: 'test', password: 'testtest', password2: 'testtest'
+};
 
             const expectedErrorMessage = 'Email provided is not valid';
             registerUser(body, expectedErrorMessage, done);
         });
 
-        it('should fail if password length is less than 4', function testSlash(done) {
+        it('should fail if password length is less than 4', (done) => {
 
-            const body = { name: 'test', email: 'test@test.com', password: 'tt', password2: 'testtest' };
+            const body = {
+ name: 'test', email: 'test@test.com', password: 'tt', password2: 'testtest'
+};
 
             const expectedErrorMessage = 'Password must be between 4 to 16 characters';
             registerUser(body, expectedErrorMessage, done);
         });
 
-        it('should fail if passwords do not match', function testSlash(done) {
+        it('should fail if passwords do not match', (done) => {
 
-            const body = { name: 'test', email: 'test@test.com', password: 'test', password2: 'testtest' };
+            const body = {
+ name: 'test', email: 'test@test.com', password: 'test', password2: 'testtest'
+};
 
             const expectedErrorMessage = 'Passwords must be the same';
             registerUser(body, expectedErrorMessage, done);
@@ -126,7 +129,7 @@ describe('User tests', function () {
                 });
         }
 
-        it('should fail if email field is not provided', function testSlash(done) {
+        it('should fail if email field is not provided', (done) => {
 
             const body = { password: 'testtest' };
 
@@ -134,7 +137,7 @@ describe('User tests', function () {
             loginUser(body, expectedErrorMessage, done);
         });
 
-        it('should fail if email is not valid', function testSlash(done) {
+        it('should fail if email is not valid', (done) => {
 
             const body = { email: 'test', password: 'testtest' };
 
@@ -142,7 +145,7 @@ describe('User tests', function () {
             loginUser(body, expectedErrorMessage, done);
         });
 
-        it('should fail if password field is not provided', function testSlash(done) {
+        it('should fail if password field is not provided', (done) => {
 
             const body = { email: 'test@test.com' };
 
@@ -150,7 +153,7 @@ describe('User tests', function () {
             loginUser(body, expectedErrorMessage, done);
         });
 
-        it('should fail if password field is invalid', function testSlash(done) {
+        it('should fail if password field is invalid', (done) => {
 
             const body = { email: 'test@test.com', password: 'tt' };
 

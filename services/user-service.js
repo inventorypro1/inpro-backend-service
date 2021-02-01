@@ -1,15 +1,14 @@
-
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const createError = require('http-errors')
-const keys = require('./../config/keys');
+const createError = require('http-errors');
+const keys = require('../config/keys');
 
 const User = require('../models/User');
 
 async function registerUser(user) {
 
-    console.log('Registering new user in user-service.js')
+    console.log('Registering new user in user-service.js');
 
     const existingUser = await User.findOne({ email: user.email });
 
@@ -23,15 +22,14 @@ async function registerUser(user) {
         password: user.password
     });
 
-    await bcrypt.hash(newUser.password, 10, function(err, hash) {
+    await bcrypt.hash(newUser.password, 10, (err, hash) => {
         if (err) throw err;
         newUser.password = hash;
-        newUser.save()
+        newUser.save();
     });
 
     return newUser;
 }
-
 
 async function loginUser(email, password) {
 
@@ -54,18 +52,18 @@ async function loginUser(email, password) {
         payload,
         keys.secretOrKey,
         {
-            expiresIn: 31556926 // 1 year in seconds
+            // 1 year in seconds
+            expiresIn: 31556926
         }
     );
 
     return {
         success: true,
-        token: 'Bearer ' + token
-    }
+        token: `Bearer ${token}`
+    };
 }
-
 
 module.exports = {
     registerUser,
     loginUser
-}
+};
