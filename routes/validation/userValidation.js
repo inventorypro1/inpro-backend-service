@@ -28,6 +28,15 @@ module.exports.validateLogin = [
 ];
 
 module.exports.validateRegister = [
+    query('accountId')
+        .not()
+        .isEmpty()
+        .withMessage('\'accountId\' field is required')
+        .bail()
+        .isString()
+        .withMessage('Account ID is not a valid object ID')
+        .isLength({ min: 24, max: 24 })
+        .withMessage('Account ID is not a valid object ID'),
     check('name')
         .trim()
         .not()

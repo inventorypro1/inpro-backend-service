@@ -27,3 +27,8 @@ Going to follow this blogpost: https://jasonwatmore.com/post/2019/11/18/react-no
 It seems however that this guide assumes that you have the front end and backend as 2 separate running applications,
 which is perfect as this is what I wanted... A separation of concerns with respect to the front and back end. So I am
 going to have to split up the front and backend before following this guide I guess.
+
+Mongo articles:
+https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-1
+
+Token encryption on APIs https://www.freecodecamp.org/news/securing-node-js-restful-apis-with-json-web-tokens-9f811a92bb52/

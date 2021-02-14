@@ -14,6 +14,7 @@ describe('User controller tests', () => {
     let response;
     let userServiceMock;
     const success = { ok: true };
+    const accountId = '123';
 
     beforeEach(() => {
         userServiceMock = sinon.mock(userService);
@@ -28,9 +29,9 @@ describe('User controller tests', () => {
 
         it('should successfully call the user service to register a user', () => {
 
-            const req = { body: { name: 'test', email: 'test@test.com' } };
+            const req = { query: { accountId }, body: { name: 'test', email: 'test@test.com' } };
 
-            userServiceMock.expects('registerUser').withArgs(req.body).resolves(success);
+            userServiceMock.expects('registerUser').withArgs(req.body, accountId).resolves(success);
 
             return target.registerUser(req, response)
                 .then((res) => {

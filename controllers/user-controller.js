@@ -3,8 +3,9 @@ const userService = require('../services/user-service');
 function registerUser(request, response, next) {
 
     const user = request.body;
+    const accountId = request.query.accountId;
 
-    return userService.registerUser(user)
+    return userService.registerUser(user, accountId)
         .then((result) => response.status(201).json(result))
         .catch((err) => next(err));
 }

@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const createError = require('http-errors');
 const keys = require('../config/keys');
 
+const accountService = require('./account-service');
 const User = require('../models/User');
 
 async function hashPassword(password, saltRounds = 10) {
@@ -17,9 +18,13 @@ async function hashPassword(password, saltRounds = 10) {
     }
 }
 
-async function registerUser(user) {
+async function registerUser(user, accountId) {
 
     console.log('Registering new user in user-service.js');
+
+    // validate whether or not the accountId specified exists
+    // TODO: somehow add validation here that the super user creating this user is registered to the account specified
+    await accountService.getAccount(accountId);
 
     const existingUser = await User.findOne({ email: user.email });
 
@@ -30,11 +35,17 @@ async function registerUser(user) {
     const newUser = new User({
         name: user.name,
         email: user.email,
-        password: user.password
+        password: user.password,
+        accountId
     });
 
+    // Add the accountId to the account model
+
+    // TODO add transactionality here. Because if adding the user to the account fails, then we'll have rogue users...
     newUser.password = await hashPassword(newUser.password);
     await newUser.save();
+
+    await accountService.addUserToAccount(accountId, newUser._id);
 
     return newUser;
 }
