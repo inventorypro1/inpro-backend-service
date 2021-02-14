@@ -8,18 +8,22 @@ const createError = require('http-errors');
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const target = require('../../services/user-service');
+const accountService = require('../../services/account-service');
 
 const User = require('../../models/User');
+
+const target = require('../../services/user-service');
 
 describe('User service tests', () => {
 
     let userMock;
     let bcryptMock;
+    let accountServiceMock;
 
     beforeEach(() => {
         bcryptMock = sinon.mock(bcrypt);
         userMock = sinon.mock(User);
+        accountServiceMock = sinon.mock(accountService);
     });
 
     afterEach(() => {
@@ -35,6 +39,8 @@ describe('User service tests', () => {
             password2: 'test'
         };
 
+        const accountId = '123';
+
         beforeEach(() => {
             bcryptMock = sinon.mock(bcrypt);
             userMock = sinon.mock(User);
@@ -45,20 +51,34 @@ describe('User service tests', () => {
             userMock.expects('findOne').withArgs({ email: user.email }).resolves(false);
             bcryptMock.expects('genSalt').withArgs(10).resolves('salt');
             bcryptMock.expects('hash').withArgs('test', 'salt').resolves('hashedPassword');
+            accountServiceMock.expects('getAccount').withArgs(accountId).resolves();
+            accountServiceMock.expects('addUserToAccount').withArgs(accountId, sinon.match.any).resolves();
 
             sinon.stub(User.prototype, 'save').callsFake(() => Promise.resolve());
 
-            return target.registerUser(user)
+            return target.registerUser(user, accountId)
                 .then((result) => {
                     expect(result.password).to.equal('hashedPassword');
                 });
         });
 
+        it('should throw 404 if the accountId does not exist', () => {
+
+            accountServiceMock.expects('getAccount').withArgs(accountId).throws(createError(404));
+
+            return target.registerUser(user, accountId)
+                .then(() => Promise.reject(createError('Failed test')))
+                .catch((err) => {
+                    expect(err.statusCode).to.equal(404);
+                });
+        });
+
         it('should throw 409 error if user already exists with email', () => {
 
+            accountServiceMock.expects('getAccount').withArgs(accountId).resolves();
             userMock.expects('findOne').withArgs({ email: user.email }).resolves(true);
 
-            return target.registerUser(user)
+            return target.registerUser(user, accountId)
                 .then(() => Promise.reject(createError('Failed test')))
                 .catch((err) => {
                     expect(err.statusCode).to.equal(409);
