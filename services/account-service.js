@@ -12,7 +12,6 @@ async function createAccount(account) {
         return Promise.reject(createError(409, `Account already exists with email ${account.email}`));
     }
 
-    // save the account
     const newAccount = new Account({
         name: account.name,
         email: account.email,
